@@ -1,6 +1,6 @@
 # 🦍 The \"spinning gorilla\" meme bot for Discord
 
-[![SpinningGorilla](https://cdn.discordapp.com/attachments/717628563813171260/787753204070613002/qIVqyJ.gif)](https://github.com/barbarbar338/gorilla-generator)
+[![SpinningGorilla](gorilla.gif)](https://github.com/barbarbar338/gorilla-generator)
 
 # 📦 Build and Running
 
