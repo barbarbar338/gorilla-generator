@@ -7,7 +7,10 @@ registerFont(resolvePath("src", "assets", "font.ttf"), {
 	family: "Gorilla",
 });
 
-export async function createGorilla(content: string): Promise<Buffer> {
+export async function createGorilla(
+	content: string,
+	gif: 1 | 2 = 1,
+): Promise<Buffer> {
 	return new Promise((resolve, reject) => {
 		const encoder = new GIFEncoder(600, 338);
 		const image = new Image();
@@ -30,14 +33,22 @@ export async function createGorilla(content: string): Promise<Buffer> {
 		encoder.setDelay(100);
 		encoder.setQuality(10);
 
-		readdirSync(resolvePath("src", "assets", "frames"))
+		readdirSync(resolvePath("src", "assets", "frames", gif.toString()))
 			.sort((a, b) => {
 				const aNumber = parseInt(a);
 				const bNumber = parseInt(b);
 				return aNumber - bNumber;
 			})
 			.map((frame) =>
-				readFileSync(resolvePath("src", "assets", "frames", frame)),
+				readFileSync(
+					resolvePath(
+						"src",
+						"assets",
+						"frames",
+						gif.toString(),
+						frame,
+					),
+				),
 			)
 			.forEach((frame) => {
 				image.src = frame;

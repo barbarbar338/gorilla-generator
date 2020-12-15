@@ -9,9 +9,11 @@
 	},
 	"license": "GPL-3.0",
 	"dependencies": {
+		"bargs": "^1.0.1",
 		"canvas": "^2.6.1",
 		"discord.js": "^12.5.1",
 		"dotenv": "^8.2.0",
+		"gif-extract-frames": "^1.0.2",
 		"gifencoder": "^2.0.1"
 	},
 	"scripts": {

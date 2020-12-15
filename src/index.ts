@@ -1,6 +1,7 @@
 import { Client, MessageAttachment } from "discord.js";
 import { createGorilla } from "./createGorilla";
 import { config } from "dotenv";
+import { bargs } from "bargs";
 
 config();
 
@@ -30,30 +31,47 @@ client.on("message", async (message) => {
 	)
 		return;
 
-	const args = message.content.slice(prefix.length).trim().split(" ");
-	const command = args.shift();
+	const split = message.content.slice(prefix.length).trim().split(" ");
+	const command = split.shift();
+	const args = bargs(
+		[
+			{
+				name: "content",
+				type: String,
+				default: true,
+			},
+			{
+				name: "gif",
+				type: Number,
+				aliases: ["g", "i", "idx", "index"],
+			},
+		],
+		split,
+	);
 
-	if (command === "goril") {
-		const content = args.join(" ");
+	if (command === "gorilla") {
+		const { content, gif } = args;
 		if (!content)
 			return await message.channel.send(
 				"Specify the content to be written on gif.",
 			);
+		if (gif && gif !== 1 && gif !== 2)
+			return await message.channel.send(
+				"Specify a valid gif id. Available ids: `1, 2`",
+			);
 
-		message.channel.startTyping();
+		await message.channel.send("Creating gif, please wait...");
 
-		const msg = await message.channel.send("Creating gif, please wait...");
-
-		const buffer = await createGorilla(content);
+		const buffer = await createGorilla(
+			content as string,
+			gif ? (gif as 1 | 2) : 1,
+		);
 		const attachment = new MessageAttachment(buffer, `${content}.gif`);
 
-		await msg.delete();
 		await message.channel.send(
 			"🦍 Here is your spinning gorilla!",
 			attachment,
 		);
-
-		message.channel.stopTyping();
 	}
 });
 
